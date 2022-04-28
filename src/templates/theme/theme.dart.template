@@ -1,0 +1,31 @@
+<%
+var themeClassName = file.prefix + 'Theme';
+var themeDataClassName = themeClassName + 'Data';
+%>
+//
+// <%= file.destination %>
+//
+<%= fileHeader({file, commentStyle: 'short'}) %>
+
+import 'package:flutter/widgets.dart';
+
+part 'data.dart';
+
+class <%= themeClassName %> extends InheritedWidget {
+    const <%= themeClassName %>({
+      Key? key,
+      required this.data,
+      required Widget child,
+    }) : super(key: key, child: child,);
+
+    final <%= themeDataClassName %> data;
+
+    static <%= themeDataClassName %> of(BuildContext context) {
+      return context.dependOnInheritedWidgetOfExactType<<%= themeClassName %>>()?.data ?? <%= themeDataClassName %>.regular();
+    }
+
+    @override
+    bool updateShouldNotify(covariant <%= themeClassName %> oldWidget) {
+      return oldWidget.data != data;
+    }
+}

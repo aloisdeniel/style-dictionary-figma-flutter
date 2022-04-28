@@ -1,0 +1,24 @@
+{
+  "name": "style-dictionary-figma-flutter",
+  "version": "1.0.0",
+  "description": "Custom style-dictionary transforms and formats to generate Flutter resources from a Figma Design Token plugin export.",
+  "main": "index.js",
+  "scripts": {
+    "build": "node build.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aloisdeniel/style-dictionary-figma-flutter.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aloisdeniel/style-dictionary-figma-flutter/issues"
+  },
+  "homepage": "https://github.com/aloisdeniel/style-dictionary-figma-flutter#readme",
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "style-dictionary": "^3.7.0",
+    "tinycolor2": "^1.4.2"
+  }
+}

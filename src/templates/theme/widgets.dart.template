@@ -1,0 +1,48 @@
+<%
+
+%>
+//
+// <%= file.destination %>
+//
+<%= fileHeader({file, commentStyle: 'short'}) %>
+
+import 'package:flutter/widgets.dart';
+
+import 'theme.dart';
+
+<% 
+const font = allTokens.Font
+if(font && font.length > 0) { %>
+enum <%= file.prefix %>TextVariant {
+    <%= font.map(function(prop) {
+        return prop.name + ',';
+    }).join('\n    ') %>
+}
+
+class <%= file.prefix %>Text extends StatelessWidget {
+    <% font.map(function(prop) { %>
+    const <%= file.prefix %>Text.<%= prop.name %>(
+        this.text, {
+        Key? key,
+        this.color,
+        this.style,
+    }) : variant = <%= file.prefix %>TextVariant.<%= prop.name %>, super(key: key);
+    <% }); %>
+    final <%= file.prefix %>TextVariant variant;
+    final String text;
+    final Color? color;
+    final TextStyle? style;
+
+    @override
+    Widget build(BuildContext context) {
+        final theme = <%= file.prefix %>Theme.of(context);
+        final style = () {
+            switch(variant) {<% font.map(function(prop) { %>
+                case <%= file.prefix %>TextVariant.<%= prop.name %>:
+                    return theme.font.<%= prop.name %>;
+            <% }); %>}
+        } ();
+        return Text(text, style: style.merge(this.style).copyWith(color: color));
+    }
+}
+<% } %>

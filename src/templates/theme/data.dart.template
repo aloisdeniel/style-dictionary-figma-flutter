@@ -1,0 +1,76 @@
+<%
+var themeDataClassName = file.prefix + 'ThemeData';
+
+function propDartType(prop) {
+    switch(prop.type) {
+      case 'color':
+        return 'Color';
+      case 'dimension':
+      case 'size':
+        return 'double';
+      case 'custom-fontStyle':
+        return 'TextStyle';
+      case 'custom-spacing':
+        return 'EdgeInsets';
+      case 'radius':
+        return 'EdgeInsets';
+      default:
+        return 'Object';
+    }
+}
+
+function propToFinalProperty(prop) {
+    var comment = ''
+    if (prop.comment) {
+       comment = '/// ' + prop.comment + '\n';
+    }
+    return comment + 'final ' + propDartType(prop) + ' ' + prop.name + ';';
+}
+%>
+//
+// <%= file.destination %>
+//
+<%= fileHeader({file, commentStyle: 'short'}) %>
+
+part of 'theme.dart';
+
+class <%= themeDataClassName %> {
+   const <%= themeDataClassName %>({
+      <%= Object.entries(allTokens).map(function([categoryName, categoryTokens]) {
+        return 'required this.' + camelCase(categoryName) + ',';
+      }).join('\n      ') %>
+    });
+
+    factory <%= themeDataClassName %>.regular() => <%= themeDataClassName %>(
+      <%=  Object.entries(allTokens).map(function([categoryName, categoryTokens])  {
+        return camelCase(categoryName) + ': ' + categoryName + file.className + 'Data.regular(),';
+      }).join('\n      ') %>
+    );
+
+    <% Object.entries(allTokens).map(function([categoryName, categoryTokens]) { 
+    %><%= 'final ' + categoryName + file.className + 'Data ' + camelCase(categoryName) + ';' %>
+    <% }); %>
+}
+
+<% Object.entries(allTokens).forEach(entry => {
+  const [categoryName, categoryTokens] = entry;
+    var categoryThemeDataClassName = categoryName + file.className + 'Data';
+  %>
+class <%= categoryThemeDataClassName %> {
+   const <%= categoryThemeDataClassName %>({
+      <%= categoryTokens.map(function(prop) {
+        return 'required this.' + prop.name + ',';
+      }).join('\n      ') %>
+    });
+
+    factory <%= categoryThemeDataClassName %>.regular() => const <%= categoryThemeDataClassName %>(
+      <%= categoryTokens.map(function(prop) {
+        return prop.name + ': ' + prop.value + ',';
+      }).join('\n      ') %>
+    );
+
+    <% categoryTokens.map(function(prop) { 
+    %><%= propToFinalProperty(prop) %>
+    <% }); %>
+}
+<% }); %>
