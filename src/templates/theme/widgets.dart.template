@@ -46,3 +46,36 @@ class <%= file.prefix %>Text extends StatelessWidget {
     }
 }
 <% } %>
+<% 
+const spacing = allTokens.Spacing
+if(spacing && spacing.length > 0) { %>
+enum <%= file.prefix %>PaddingVariant {
+    <%= spacing.map(function(prop) {
+        return prop.name + ',';
+    }).join('\n    ') %>
+}
+
+class <%= file.prefix %>Padding extends StatelessWidget {
+    <% spacing.map(function(prop) { %>
+    const <%= file.prefix %>Padding.<%= prop.name %>(
+         {
+        Key? key,
+        required this.child,
+    }) : variant = <%= file.prefix %>PaddingVariant.<%= prop.name %>, super(key: key);
+    <% }); %>
+    final <%= file.prefix %>PaddingVariant variant;
+    final Widget child;
+
+    @override
+    Widget build(BuildContext context) {
+        final theme = <%= file.prefix %>Theme.of(context);
+        final padding = () {
+            switch(variant) {<% spacing.map(function(prop) { %>
+                case <%= file.prefix %>PaddingVariant.<%= prop.name %>:
+                    return theme.spacing.<%= prop.name %>;
+            <% }); %>}
+        } ();
+        return Padding(padding: padding, child: child);
+    }
+}
+<% } %>

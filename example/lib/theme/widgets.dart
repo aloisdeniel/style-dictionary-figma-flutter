@@ -4,7 +4,7 @@
 //
 
 // Do not edit directly
-// Generated on Thu, 28 Apr 2022 21:15:03 GMT
+// Generated on Thu, 28 Apr 2022 21:18:54 GMT
 
 
 
@@ -96,5 +96,54 @@ class AppText extends StatelessWidget {
             }
         } ();
         return Text(text, style: style.merge(this.style).copyWith(color: color));
+    }
+}
+
+
+enum AppPaddingVariant {
+    mixed,
+    top,
+    v10,
+}
+
+class AppPadding extends StatelessWidget {
+    
+    const AppPadding.mixed(
+         {
+        Key? key,
+        required this.child,
+    }) : variant = AppPaddingVariant.mixed, super(key: key);
+    
+    const AppPadding.top(
+         {
+        Key? key,
+        required this.child,
+    }) : variant = AppPaddingVariant.top, super(key: key);
+    
+    const AppPadding.v10(
+         {
+        Key? key,
+        required this.child,
+    }) : variant = AppPaddingVariant.v10, super(key: key);
+    
+    final AppPaddingVariant variant;
+    final Widget child;
+
+    @override
+    Widget build(BuildContext context) {
+        final theme = AppTheme.of(context);
+        final padding = () {
+            switch(variant) {
+                case AppPaddingVariant.mixed:
+                    return theme.spacing.mixed;
+            
+                case AppPaddingVariant.top:
+                    return theme.spacing.top;
+            
+                case AppPaddingVariant.v10:
+                    return theme.spacing.v10;
+            }
+        } ();
+        return Padding(padding: padding, child: child);
     }
 }
