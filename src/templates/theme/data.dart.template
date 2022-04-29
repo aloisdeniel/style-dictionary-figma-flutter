@@ -10,10 +10,12 @@ function propDartType(prop) {
         return 'double';
       case 'custom-fontStyle':
         return 'TextStyle';
+      case 'custom-icon':
+        return 'Vector';
       case 'custom-spacing':
         return 'EdgeInsets';
       case 'radius':
-        return 'EdgeInsets';
+        return 'BorderRadius';
       default:
         return 'Object';
     }
@@ -43,19 +45,34 @@ class <%= themeDataClassName %> {
 
     factory <%= themeDataClassName %>.regular() => <%= themeDataClassName %>(
       <%=  Object.entries(allTokens).map(function([categoryName, categoryTokens])  {
-        return camelCase(categoryName) + ': ' + categoryName + file.className + 'Data.regular(),';
+        return camelCase(categoryName) + ': ' + file.prefix +  categoryName + 'Data.regular(),';
       }).join('\n      ') %>
     );
 
     <% Object.entries(allTokens).map(function([categoryName, categoryTokens]) { 
-    %><%= 'final ' + categoryName + file.className + 'Data ' + camelCase(categoryName) + ';' %>
+    %><%= 'final ' + file.prefix +  categoryName  + 'Data ' + camelCase(categoryName) + ';' %>
     <% }); %>
 }
 
 <% Object.entries(allTokens).forEach(entry => {
   const [categoryName, categoryTokens] = entry;
-    var categoryThemeDataClassName = categoryName + file.className + 'Data';
+    var categoryThemeDataClassName = file.prefix +  categoryName + 'Data';
+    var isConst = categoryName !== 'Icons'
   %>
+
+<% if(categoryName === 'Icons') { %>
+
+class Vector {
+  const Vector({
+    required this.path,
+    required this.size,
+  });
+  final Path path;
+  final Size size;
+}
+<% } %>
+
+
 class <%= categoryThemeDataClassName %> {
    const <%= categoryThemeDataClassName %>({
       <%= categoryTokens.map(function(prop) {
@@ -63,11 +80,22 @@ class <%= categoryThemeDataClassName %> {
       }).join('\n      ') %>
     });
 
+
+<% if(isConst) { %>
     factory <%= categoryThemeDataClassName %>.regular() => const <%= categoryThemeDataClassName %>(
       <%= categoryTokens.map(function(prop) {
         return prop.name + ': ' + prop.value + ',';
       }).join('\n      ') %>
     );
+<% } else { %>
+  static final _regular = <%= categoryThemeDataClassName %>(
+      <%= categoryTokens.map(function(prop) {
+        return prop.name + ': ' + prop.value + ',';
+      }).join('\n      ') %>
+  );
+
+  factory <%= categoryThemeDataClassName %>.regular() => _regular;
+<% } %>
 
     <% categoryTokens.map(function(prop) { 
     %><%= propToFinalProperty(prop) %>

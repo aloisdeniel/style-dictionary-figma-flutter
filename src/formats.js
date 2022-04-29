@@ -3,7 +3,7 @@ const _template = require('lodash/template');
 const _ = require('style-dictionary/lib/utils/es6_');
 const { fileHeader, sortByReference, sortByName, } = require('style-dictionary/lib/common/formatHelpers');
 
-const supportedCategories = ['color', 'font', 'sizes', 'spacing', 'radius', 'radii', 'breakpoints'];
+const supportedCategories = ['color', 'font', 'sizes', 'spacing', 'radius', 'radii', 'breakpoints', 'icons'];
 
 function groupBy(list, keyGetter) {
     var map = {};
