@@ -9,7 +9,7 @@ var themeDataClassName = themeClassName + 'Data';
 
 import 'package:flutter/widgets.dart';
 
-part 'data.dart';
+part 'data.g.dart';
 
 class <%= themeClassName %> extends InheritedWidget {
     const <%= themeClassName %>({

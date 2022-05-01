@@ -1,0 +1,121 @@
+<%
+    const icons = allTokens.Icons; 
+    const colors = allTokens.Color; 
+    const font = allTokens.Font; 
+%>
+//
+// <%= file.destination %>
+//
+<%= fileHeader({file, commentStyle: 'short'}) %>
+
+import 'package:flutter/widgets.dart';
+
+import 'theme.g.dart';
+import 'widgets.g.dart';
+
+class <%= file.prefix %>ThemeGallery extends StatelessWidget {
+    const <%= file.prefix %>ThemeGallery({
+        Key? key,
+    }) : super(key: key);
+
+    @override
+    Widget build(BuildContext context) {
+        return ListView(
+            children: [
+                <% if(font && font.length > 0) { %>const _FontSection(),<% } %>
+                <% if(colors && colors.length > 0) { %>const _ColorsSection(),<% } %>
+                <% if(icons && icons.length > 0) { %>const _IconsSection(),<% } %>
+            ]
+        );
+    }   
+}
+<% if(colors && colors.length > 0) { %>
+class _ColorsSection extends StatelessWidget {
+    const _ColorsSection({
+        Key? key,
+    }) : super(key: key);
+
+    @override
+    Widget build(BuildContext context) {
+        final theme = <%= file.prefix %>Theme.of(context);
+        return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+                Text('Icons'),
+                <% colors.map(function(prop) { %> _Token(
+                    name: '<%= prop.name %>',
+                    child: Container(width: 24, height: 24, color: theme.color.<%= prop.name %>,),
+                ),
+                <% }); %>
+            ]
+        );
+    }
+}<% } %>
+
+<% if(font && font.length > 0) { %>
+class _FontSection extends StatelessWidget {
+    const _FontSection({
+        Key? key,
+    }) : super(key: key);
+
+    @override
+    Widget build(BuildContext context) {
+        return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+                Text('Icons'),
+                <% font.map(function(prop) { %> _Token(
+                    name: '<%= prop.name %>',
+                    child: <%= file.prefix %>Text.<%= prop.name %>('Hello world!'),
+                ),
+                <% }); %>
+            ]
+        );
+    }
+}<% } %>
+
+<% if(icons && icons.length > 0) { %>
+class _IconsSection extends StatelessWidget {
+    const _IconsSection({
+        Key? key,
+    }) : super(key: key);
+
+    @override
+    Widget build(BuildContext context) {
+        return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+                Text('Icons'),
+                <% icons.map(function(prop) { %> _Token(
+                    name: '<%= prop.name %>',
+                    child: <%= file.prefix %>Icon.<%= prop.name %>(),
+                ),<% }); %>
+            ]
+        );
+    }
+}<% } %>
+
+class _Token extends StatelessWidget {
+    const _Token({
+        Key? key,
+        required this.name,
+        required this.child,
+    }) : super(key: key);
+
+    final String name;
+    final Widget child;
+
+    @override
+    Widget build(BuildContext context) {
+        return Container(
+            child: Row(
+                children: [
+                    child,
+                    Expanded(   
+                        child:Text(name),
+                    ),
+                ]
+            )
+        );
+    }
+}

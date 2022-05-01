@@ -1,5 +1,5 @@
 <%
-
+    const icons = allTokens.Icons; 
 %>
 //
 // <%= file.destination %>
@@ -7,8 +7,9 @@
 <%= fileHeader({file, commentStyle: 'short'}) %>
 
 import 'package:flutter/widgets.dart';
+<% if(icons && icons.length > 0) { %>import 'package:flutter/rendering.dart';<% } %>
 
-import 'theme.dart';
+import 'theme.g.dart';
 
 <% 
 const font = allTokens.Font
@@ -77,5 +78,143 @@ class <%= file.prefix %>Padding extends StatelessWidget {
         } ();
         return Padding(padding: padding, child: child);
     }
+}
+<% } %>
+
+<% if(icons && icons.length > 0) { %>
+enum <%= file.prefix %>IconVariant {
+    <%= icons.map(function(prop) {
+        return prop.name + ',';
+    }).join('\n    ') %>
+}
+
+class <%= file.prefix %>Icon extends StatelessWidget {
+    const <%= file.prefix %>Icon(
+        Vector data, {
+        Key? key,
+        this.size,
+        this.color,
+        this.semanticLabel,
+    }) : data = data, variant = null, super(key: key);
+
+   <% icons.map(function(prop) { %>
+    const <%= file.prefix %>Icon.<%= prop.name %>({
+        Key? key,
+        this.size,
+        this.color,
+        this.semanticLabel,
+    }) : variant = <%= file.prefix %>IconVariant.<%= prop.name %>, data = null, super(key: key);
+    <% }); %>
+
+  /// The icon data.
+  final Vector? data;
+
+  /// The width and height of the icon.
+  final Size? size;
+
+  /// The color that fills the data's path.
+  final Color? color;
+
+  /// Semantic label for the icon.
+  ///
+  /// Announced in accessibility modes (e.g TalkBack/VoiceOver).
+  /// This label does not show in the UI.
+  final String? semanticLabel;
+
+  final <%= file.prefix %>IconVariant? variant;
+
+  @override
+  Widget build(BuildContext context) {
+    final iconTheme = IconTheme.of(context);
+    final width = size?.width ?? iconTheme.size;
+    final height = size?.height ?? iconTheme.size;
+    final iconOpacity = iconTheme.opacity ?? 1.0;
+    var iconColor = color ?? iconTheme.color ?? const Color(0xFF000000);
+    if (iconOpacity != 1.0) {
+      iconColor = iconColor.withOpacity(iconColor.opacity * iconOpacity);
+    }
+
+    final data = this.data ?? () {
+        final theme = <%= file.prefix %>Theme.of(context);
+        switch(variant!) {<% icons.map(function(prop) { %>
+            case <%= file.prefix %>IconVariant.<%= prop.name %>:
+                return theme.icons.<%= prop.name %>;
+        <% }); %>}
+    } ();
+
+    return SizedBox(
+      width: width,
+      height: height,
+      child: CustomPaint(
+        painter:  <%= file.prefix %>IconPainter(
+          data: data,
+          semanticLabel: semanticLabel,
+          color: iconColor,
+        ),
+      ),
+    );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty<Vector?>('data', data));
+    properties.add(DiagnosticsProperty<<%= file.prefix %>IconVariant?>('variant', variant));
+    properties.add(DiagnosticsProperty<Size>('size', size, defaultValue: null));
+    properties.add(ColorProperty('color', color, defaultValue: null));
+  }
+}
+
+class <%= file.prefix %>IconPainter extends CustomPainter {
+  const <%= file.prefix %>IconPainter({
+    required this.data,
+    this.color,
+    this.semanticLabel,
+  });
+
+  final Vector data;
+  final String? semanticLabel;
+  final Color? color;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final sizes = applyBoxFit(BoxFit.contain, data.size, size);
+    final outputSubrect =
+        Alignment.center.inscribe(sizes.destination, Offset.zero & size);
+    final scale = sizes.destination.width / sizes.source.width;
+    canvas.translate(
+      outputSubrect.left,
+      outputSubrect.top,
+    );
+    canvas.scale(scale);
+
+    canvas.drawPath(data.path, Paint()..color = color ?? const Color(0xFF000000));
+  }
+
+  @override
+  SemanticsBuilderCallback get semanticsBuilder {
+    return (Size size) {
+      final semanticLabel = this.semanticLabel;
+      return [
+        if (semanticLabel != null && semanticLabel.isNotEmpty)
+          CustomPainterSemantics(
+            rect: Offset.zero & size,
+            properties: SemanticsProperties(
+              label: semanticLabel,
+              textDirection: TextDirection.ltr,
+            ),
+          ),
+      ];
+    };
+  }
+
+  @override
+  bool shouldRepaint(<%= file.prefix %>IconPainter oldDelegate) =>
+      data != oldDelegate.data ||
+      color != oldDelegate.color;
+
+  @override
+  bool shouldRebuildSemantics(<%= file.prefix %>IconPainter oldDelegate) =>
+      semanticLabel != oldDelegate.semanticLabel;
 }
 <% } %>

@@ -8,18 +8,23 @@
             "buildPath": "./lib/",
             "files": [
                 {
-                    "destination": "theme/theme.dart",
+                    "destination": "theme/theme.g.dart",
                     "format": "flutter/theme/theme.dart",
                     "prefix": "App"
                 },
                 {
-                    "destination": "theme/data.dart",
+                    "destination": "theme/data.g.dart",
                     "format": "flutter/theme/data.dart",
                     "prefix": "App"
                 },
                 {
-                    "destination": "theme/widgets.dart",
+                    "destination": "theme/widgets.g.dart",
                     "format": "flutter/theme/widgets.dart",
+                    "prefix": "App"
+                },
+                {
+                    "destination": "theme/gallery.g.dart",
+                    "format": "flutter/theme/gallery.dart",
                     "prefix": "App"
                 }
             ]

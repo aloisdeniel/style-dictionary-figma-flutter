@@ -34,7 +34,7 @@ function propToFinalProperty(prop) {
 //
 <%= fileHeader({file, commentStyle: 'short'}) %>
 
-part of 'theme.dart';
+part of 'theme.g.dart';
 
 class <%= themeDataClassName %> {
    const <%= themeDataClassName %>({

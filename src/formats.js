@@ -57,4 +57,10 @@ module.exports = {
         );
         return template({ allTokens: groupTokensByCategory(dictionary, options), camelCase: _.camelCase, file, options, fileHeader });
     },
+    'flutter/theme/gallery.dart': function ({ dictionary, options, file }) {
+        const template = _template(
+            fs.readFileSync(__dirname + '/templates/theme/gallery.dart.template')
+        );
+        return template({ allTokens: groupTokensByCategory(dictionary, options), camelCase: _.camelCase, file, options, fileHeader });
+    },
 }
