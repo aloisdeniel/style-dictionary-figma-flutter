@@ -3,7 +3,7 @@
 //
 
 // Do not edit directly
-// Generated on Mon, 02 May 2022 04:25:17 GMT
+// Generated on Mon, 02 May 2022 21:17:37 GMT
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter/rendering.dart';
@@ -79,22 +79,22 @@ class AppText extends StatelessWidget {
     final style = () {
       switch (variant) {
         case AppTextVariant.bodyExtraBoldCondensedItalic:
-          return theme.font.bodyExtraBoldCondensedItalic;
+          return theme.textStyle.bodyExtraBoldCondensedItalic;
 
         case AppTextVariant.bodyH3:
-          return theme.font.bodyH3;
+          return theme.textStyle.bodyH3;
 
         case AppTextVariant.bodyH4StrikeThrough:
-          return theme.font.bodyH4StrikeThrough;
+          return theme.textStyle.bodyH4StrikeThrough;
 
         case AppTextVariant.bodyItalic:
-          return theme.font.bodyItalic;
+          return theme.textStyle.bodyItalic;
 
         case AppTextVariant.bodyMediumExtendedItalic:
-          return theme.font.bodyMediumExtendedItalic;
+          return theme.textStyle.bodyMediumExtendedItalic;
 
         case AppTextVariant.bodySuper:
-          return theme.font.bodySuper;
+          return theme.textStyle.bodySuper;
       }
     }();
     return Text(text, style: style.merge(this.style).copyWith(color: color));
@@ -135,13 +135,13 @@ class AppPadding extends StatelessWidget {
     final padding = () {
       switch (variant) {
         case AppPaddingVariant.mixed:
-          return theme.spacing.mixed;
+          return theme.edgeInsets.mixed;
 
         case AppPaddingVariant.top:
-          return theme.spacing.top;
+          return theme.edgeInsets.top;
 
         case AppPaddingVariant.v10:
-          return theme.spacing.v10;
+          return theme.edgeInsets.v10;
       }
     }();
     return Padding(padding: padding, child: child);
@@ -255,22 +255,22 @@ class AppIcon extends StatelessWidget {
           final theme = AppTheme.of(context);
           switch (variant!) {
             case AppIconVariant.pageTree:
-              return theme.icons.pageTree;
+              return theme.vector.pageTree;
 
             case AppIconVariant.paperclip:
-              return theme.icons.paperclip;
+              return theme.vector.paperclip;
 
             case AppIconVariant.pasteWord:
-              return theme.icons.pasteWord;
+              return theme.vector.pasteWord;
 
             case AppIconVariant.phone:
-              return theme.icons.phone;
+              return theme.vector.phone;
 
             case AppIconVariant.productMenuClosed:
-              return theme.icons.productMenuClosed;
+              return theme.vector.productMenuClosed;
 
             case AppIconVariant.propagation:
-              return theme.icons.propagation;
+              return theme.vector.propagation;
           }
         }();
 

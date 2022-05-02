@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const StyleDictionary = require('style-dictionary');
 const transforms = require('./src/transforms');
 const formats = require('./src/formats');

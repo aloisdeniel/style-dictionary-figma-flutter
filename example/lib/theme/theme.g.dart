@@ -3,10 +3,9 @@
 //
 
 // Do not edit directly
-// Generated on Mon, 02 May 2022 04:25:17 GMT
+// Generated on Mon, 02 May 2022 21:17:37 GMT
 
 import 'package:flutter/widgets.dart';
-import 'package:equatable/equatable.dart';
 
 part 'data.g.dart';
 

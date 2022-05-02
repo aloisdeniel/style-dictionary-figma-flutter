@@ -1,9 +1,10 @@
 const fs = require('fs');
+const { toDartType } = require('./utils.js');
 const _template = require('lodash/template');
 const _ = require('style-dictionary/lib/utils/es6_');
 const { fileHeader, sortByReference, sortByName, } = require('style-dictionary/lib/common/formatHelpers');
 
-const supportedCategories = ['color', 'font', 'sizes', 'spacing', 'radius', 'radii', 'breakpoints', 'icons'];
+const supportedCategories = ['color', 'custom-gradient', 'custom-fontStyle', 'dimension', 'custom-spacing', 'radius', 'radius', 'breakpoints', 'custom-icon'];
 
 function groupBy(list, keyGetter) {
     var map = {};
@@ -30,10 +31,18 @@ function groupTokensByCategory(dictionary, options) {
         allTokens = [...dictionary.allTokens].sort(sortByName);
     }
 
-    allTokens = allTokens.filter(token => supportedCategories.indexOf(token.attributes.category) >= 0)
+    allTokens = allTokens.filter(token => supportedCategories.indexOf(token.type) >= 0)
 
     return groupBy(allTokens, function (token) {
-        return _.upperFirst(token.attributes.category);
+
+        switch (token.attributes.category) {
+            case 'breakpoints':
+                return 'Breakpoint';
+            case 'sizes':
+                return 'Size';
+            default:
+                return _.upperFirst(toDartType(token));
+        }
     });
 }
 
@@ -49,7 +58,7 @@ module.exports = {
         const template = _template(
             fs.readFileSync(__dirname + '/templates/theme/data.dart.template')
         );
-        return template({ allTokens: groupTokensByCategory(dictionary, options), camelCase: _.camelCase, file, options, fileHeader });
+        return template({ allTokens: groupTokensByCategory(dictionary, options), camelCase: _.camelCase, toDartType, file, options, fileHeader });
     },
     'flutter/theme/widgets.dart': function ({ dictionary, options, file }) {
         const template = _template(

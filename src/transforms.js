@@ -11,6 +11,15 @@ function n(v, offset) {
     return parseFloat(parsed.toFixed(4))
 }
 
+function generateColor(value) {
+    var str = Color(value).toHex8().toUpperCase();
+    return `Color(0x${str.slice(6)}${str.slice(0, 6)})`;
+}
+
+function degreesToRadiant(deg) {
+    return (deg * Math.PI) / 180.0;
+}
+
 module.exports = {
     'name/flutter/field': {
         type: 'name',
@@ -34,10 +43,63 @@ module.exports = {
             return token.type === 'color';
         },
         transformer: ({ value }) => {
-            var str = Color(value).toHex8().toUpperCase();
-            return `Color(0x${str.slice(6)}${str.slice(0, 6)})`;
+            return generateColor(value);
         }
     },
+    'gradient/flutter': {
+        type: 'value',
+        matcher: function (token) {
+            return token.type === 'custom-gradient';
+        },
+        transformer: ({ value: { gradientType, stops, rotation } }) => {
+
+            var result = ``;
+
+            switch (gradientType) {
+                case 'radial':
+                    result += 'RadialGradient';
+                    break;
+                case 'linear':
+                default:
+                    result += 'LinearGradient';
+                    break;
+            }
+
+            result += '(';
+
+            // Begin & end
+            const radiant = degreesToRadiant(rotation)
+            const h = Math.cos(radiant - Math.PI * 0.25) * Math.SQRT2 * 0.5;
+            const x = h * Math.cos(radiant);
+            const y = h * Math.sin(radiant);
+
+            switch (gradientType) {
+                case 'radial':
+                    result += `center: Alignment.center,`;
+                    result += `radius: ${Math.sqrt(x * x + y * y)},`;
+                    break;
+                case 'linear':
+                default:
+                    result += `begin: Alignment(${x},${y}),`;
+                    result += `end: Alignment(${-x},${-y}),`;
+                    break;
+            }
+
+            // Positions
+            var stopValues = stops
+                .map((x) => x["position"]);
+            result += `stops: [${stopValues.join(", ")}],`;
+
+            // Colors
+            var colorValues = stops
+                .map((x) => generateColor(x["color"]));
+            result += `colors: [${colorValues.join(", ")}],`;
+
+            result += ')';
+            return result;
+        }
+    },
+
     'radius/flutter': {
         type: 'value',
         matcher: function (token) {
@@ -85,7 +147,7 @@ module.exports = {
         matcher: function ({ type }) {
             return type === 'custom-icon'
         },
-        transformer: function ({ value: { data, paths, size: { width, height }, offset } }) {
+        transformer: function ({ value: { paths, size: { width, height }, offset } }) {
             var result = 'Vector('
             result += 'path: Path()';
 

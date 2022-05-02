@@ -1,5 +1,7 @@
 <%
-    const icons = allTokens.Icons; 
+  const icons = allTokens.Vector; 
+  const font = allTokens.TextStyle;
+  const spacing = allTokens.EdgeInsets;
 %>
 //
 // <%= file.destination %>
@@ -12,7 +14,6 @@ import 'package:flutter/widgets.dart';
 import 'theme.g.dart';
 
 <% 
-const font = allTokens.Font
 if(font && font.length > 0) { %>
 enum <%= file.prefix %>TextVariant {
     <%= font.map(function(prop) {
@@ -40,7 +41,7 @@ class <%= file.prefix %>Text extends StatelessWidget {
         final style = () {
             switch(variant) {<% font.map(function(prop) { %>
                 case <%= file.prefix %>TextVariant.<%= prop.name %>:
-                    return theme.font.<%= prop.name %>;
+                    return theme.textStyle.<%= prop.name %>;
             <% }); %>}
         } ();
         return Text(text, style: style.merge(this.style).copyWith(color: color));
@@ -48,7 +49,6 @@ class <%= file.prefix %>Text extends StatelessWidget {
 }
 <% } %>
 <% 
-const spacing = allTokens.Spacing
 if(spacing && spacing.length > 0) { %>
 enum <%= file.prefix %>PaddingVariant {
     <%= spacing.map(function(prop) {
@@ -73,7 +73,7 @@ class <%= file.prefix %>Padding extends StatelessWidget {
         final padding = () {
             switch(variant) {<% spacing.map(function(prop) { %>
                 case <%= file.prefix %>PaddingVariant.<%= prop.name %>:
-                    return theme.spacing.<%= prop.name %>;
+                    return theme.edgeInsets.<%= prop.name %>;
             <% }); %>}
         } ();
         return Padding(padding: padding, child: child);
@@ -138,7 +138,7 @@ class <%= file.prefix %>Icon extends StatelessWidget {
         final theme = <%= file.prefix %>Theme.of(context);
         switch(variant!) {<% icons.map(function(prop) { %>
             case <%= file.prefix %>IconVariant.<%= prop.name %>:
-                return theme.icons.<%= prop.name %>;
+                return theme.vector.<%= prop.name %>;
         <% }); %>}
     } ();
 

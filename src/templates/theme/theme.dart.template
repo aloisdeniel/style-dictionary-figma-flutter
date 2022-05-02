@@ -1,6 +1,7 @@
 <%
-var themeClassName = file.prefix + 'Theme';
-var themeDataClassName = themeClassName + 'Data';
+const themeClassName = file.prefix + 'Theme';
+const themeDataClassName = themeClassName + 'Data';
+const isEquatable = file.compareBy === 'equatable';
 %>
 //
 // <%= file.destination %>
@@ -8,7 +9,7 @@ var themeDataClassName = themeClassName + 'Data';
 <%= fileHeader({file, commentStyle: 'short'}) %>
 
 import 'package:flutter/widgets.dart';
-import 'package:equatable/equatable.dart';
+<% if(isEquatable) { %>import 'package:equatable/equatable.dart';<% } %>
 
 part 'data.g.dart';
 
