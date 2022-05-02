@@ -3,11 +3,11 @@
 //
 
 // Do not edit directly
-// Generated on Sun, 01 May 2022 08:28:11 GMT
+// Generated on Mon, 02 May 2022 04:25:17 GMT
 
 part of 'theme.g.dart';
 
-class AppThemeData {
+class AppThemeData extends Equatable {
   const AppThemeData({
     required this.font,
     required this.color,
@@ -38,9 +38,21 @@ class AppThemeData {
   final AppRadiiData radii;
   final AppIconsData icons;
   final AppRadiusData radius;
+
+  @override
+  List<Object> get props => [
+        font,
+        color,
+        sizes,
+        breakpoints,
+        spacing,
+        radii,
+        icons,
+        radius,
+      ];
 }
 
-class AppFontData {
+class AppFontData extends Equatable {
   const AppFontData({
     required this.bodyExtraBoldCondensedItalic,
     required this.bodyH3,
@@ -83,9 +95,19 @@ class AppFontData {
   final TextStyle bodyItalic;
   final TextStyle bodyMediumExtendedItalic;
   final TextStyle bodySuper;
+
+  @override
+  List<Object> get props => [
+        bodyExtraBoldCondensedItalic,
+        bodyH3,
+        bodyH4StrikeThrough,
+        bodyItalic,
+        bodyMediumExtendedItalic,
+        bodySuper,
+      ];
 }
 
-class AppColorData {
+class AppColorData extends Equatable {
   const AppColorData({
     required this.colorsMultipleFills0,
     required this.colorsMultipleFills1,
@@ -119,9 +141,22 @@ class AppColorData {
   final Color darkBackground;
   final Color invalidEmpty;
   final Color lightBackground;
+
+  @override
+  List<Object> get props => [
+        colorsMultipleFills0,
+        colorsMultipleFills1,
+        colorsRefBlue,
+        colorsSingleBlue,
+        colorsSpecialCharacters,
+        colorsSpecialCharactersNderung,
+        darkBackground,
+        invalidEmpty,
+        lightBackground,
+      ];
 }
 
-class AppSizesData {
+class AppSizesData extends Equatable {
   const AppSizesData({
     required this.frame,
     required this.inVariant120,
@@ -167,9 +202,26 @@ class AppSizesData {
   final double v40;
   final double v60;
   final double v80;
+
+  @override
+  List<Object> get props => [
+        frame,
+        inVariant120,
+        inVariant60,
+        inVariant90,
+        plainToken,
+        rect,
+        shapeInComponent,
+        tokenInFrame,
+        tokenInGroup,
+        v32,
+        v40,
+        v60,
+        v80,
+      ];
 }
 
-class AppBreakpointsData {
+class AppBreakpointsData extends Equatable {
   const AppBreakpointsData({
     required this.lg,
     required this.md,
@@ -185,9 +237,16 @@ class AppBreakpointsData {
   final double lg;
   final double md;
   final double sm;
+
+  @override
+  List<Object> get props => [
+        lg,
+        md,
+        sm,
+      ];
 }
 
-class AppSpacingData {
+class AppSpacingData extends Equatable {
   const AppSpacingData({
     required this.mixed,
     required this.top,
@@ -195,17 +254,24 @@ class AppSpacingData {
   });
 
   factory AppSpacingData.regular() => const AppSpacingData(
-        mixed: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 30),
-        top: EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 0),
+        mixed: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 30),
+        top: EdgeInsets.only(left: 0, right: 0, top: 10, bottom: 0),
         v10: EdgeInsets.all(10),
       );
 
   final EdgeInsets mixed;
   final EdgeInsets top;
   final EdgeInsets v10;
+
+  @override
+  List<Object> get props => [
+        mixed,
+        top,
+        v10,
+      ];
 }
 
-class AppRadiiData {
+class AppRadiiData extends Equatable {
   const AppRadiiData({
     required this.mixed,
     required this.smoothing,
@@ -223,6 +289,12 @@ class AppRadiiData {
 
   final Object mixed;
   final Object smoothing;
+
+  @override
+  List<Object> get props => [
+        mixed,
+        smoothing,
+      ];
 }
 
 class Vector {
@@ -234,7 +306,7 @@ class Vector {
   final Size size;
 }
 
-class AppIconsData {
+class AppIconsData extends Equatable {
   const AppIconsData({
     required this.pageTree,
     required this.paperclip,
@@ -419,25 +491,102 @@ class AppIconsData {
     ),
     productMenuClosed: Vector(
       path: Path()
-        ..moveTo(0, 0.9688)
-        ..cubicTo(0, 0.4344, 0.4346, 0, 0.9688, 0)
-        ..cubicTo(1.5059, 0, 1.9404, 0.4344, 1.9375, 0.9688)
-        ..lineTo(1.9375, 15.0313)
-        ..cubicTo(1.9375, 15.5656, 1.5029, 16, 0.9688, 16)
-        ..cubicTo(0.4346, 16, 0, 15.5656, 0, 15.0313)
-        ..lineTo(0, 0.9688)
-        ..close(),
+        ..addPath(
+          Path()
+            ..moveTo(0, 0.9688)
+            ..cubicTo(0, 0.4344, 0.4346, 0, 0.9688, 0)
+            ..cubicTo(1.5059, 0, 1.9404, 0.4344, 1.9375, 0.9688)
+            ..lineTo(1.9375, 15.0313)
+            ..cubicTo(1.9375, 15.5656, 1.5029, 16, 0.9688, 16)
+            ..cubicTo(0.4346, 16, 0, 15.5656, 0, 15.0313)
+            ..lineTo(0, 0.9688)
+            ..close(),
+          Offset.zero,
+        )
+        ..addPath(
+          Path()
+            ..fillType = PathFillType.evenOdd
+            ..moveTo(14.5, 16)
+            ..lineTo(4.5, 16)
+            ..cubicTo(3.6719, 16, 3, 15.3281, 3, 14.5)
+            ..lineTo(3, 1.5)
+            ..cubicTo(3, 0.675, 3.6719, 0, 4.5, 0)
+            ..lineTo(14.5, 0)
+            ..cubicTo(15.3281, 0, 16, 0.6719, 16, 1.5)
+            ..lineTo(16, 14.5)
+            ..cubicTo(16, 15.325, 15.3252, 16, 14.5, 16)
+            ..close()
+            ..moveTo(5, 14)
+            ..lineTo(14, 14)
+            ..lineTo(14, 2)
+            ..lineTo(5, 2)
+            ..lineTo(5, 14)
+            ..close(),
+          Offset.zero,
+        ),
       size: const Size(16, 16),
     ),
     propagation: Vector(
       path: Path()
-        ..moveTo(11.5, 3.5)
-        ..cubicTo(11.5, 5.433, 9.933, 7, 8, 7)
-        ..cubicTo(6.067, 7, 4.5, 5.433, 4.5, 3.5)
-        ..cubicTo(4.5, 1.567, 6.067, 0, 8, 0)
-        ..cubicTo(9.933, 0, 11.5, 1.567, 11.5, 3.5)
-        ..close(),
-      size: const Size(16, 16),
+        ..addPath(
+          Path()
+            ..moveTo(11.5, 3.5)
+            ..cubicTo(11.5, 5.433, 9.933, 7, 8, 7)
+            ..cubicTo(6.067, 7, 4.5, 5.433, 4.5, 3.5)
+            ..cubicTo(4.5, 1.567, 6.067, 0, 8, 0)
+            ..cubicTo(9.933, 0, 11.5, 1.567, 11.5, 3.5)
+            ..close(),
+          Offset.zero,
+        )
+        ..addPath(
+          Path()
+            ..moveTo(1, 10.3)
+            ..lineTo(4.1438, 7.1594)
+            ..cubicTo(4.5969, 6.7125, 5.3125, 7.3312, 4.85, 7.8656)
+            ..lineTo(1.7156, 11)
+            ..lineTo(2.075, 11)
+            ..cubicTo(2.7219, 11.0062, 2.7531, 11.975, 2.075, 12)
+            ..lineTo(0.5, 12)
+            ..cubicTo(0.225, 12, 0, 11.775, 0, 11.5)
+            ..lineTo(0, 9.925)
+            ..cubicTo(0.0156, 9.2625, 1, 9.2656, 1, 9.925)
+            ..lineTo(1, 10.3)
+            ..close(),
+          Offset.zero,
+        )
+        ..addPath(
+          Path()
+            ..moveTo(14.9997, 10.3)
+            ..lineTo(11.8559, 7.1594)
+            ..cubicTo(11.4028, 6.7125, 10.6872, 7.3312, 11.1497, 7.8656)
+            ..lineTo(14.2841, 11)
+            ..lineTo(13.9247, 11)
+            ..cubicTo(13.2778, 11.0062, 13.2466, 11.975, 13.9247, 12)
+            ..lineTo(15.4997, 12)
+            ..cubicTo(15.7747, 12, 15.9997, 11.775, 15.9997, 11.5)
+            ..lineTo(15.9997, 9.925)
+            ..cubicTo(15.9841, 9.2625, 14.9997, 9.2656, 14.9997, 9.925)
+            ..lineTo(14.9997, 10.3)
+            ..close(),
+          Offset.zero,
+        )
+        ..addPath(
+          Path()
+            ..moveTo(7.5066, 9.5062)
+            ..lineTo(7.5066, 14.3)
+            ..lineTo(7.2409, 14.0343)
+            ..cubicTo(6.7753, 13.5687, 6.0753, 14.2625, 6.5347, 14.7406)
+            ..lineTo(7.6472, 15.8531)
+            ..cubicTo(7.8409, 16.0468, 8.1597, 16.0468, 8.3534, 15.8531)
+            ..lineTo(9.4659, 14.7406)
+            ..cubicTo(9.9284, 14.2437, 9.2222, 13.5812, 8.7597, 14.0343)
+            ..lineTo(8.5066, 14.2875)
+            ..lineTo(8.5066, 9.5062)
+            ..cubicTo(8.4534, 8.8031, 7.5097, 8.8687, 7.5066, 9.5062)
+            ..close(),
+          Offset.zero,
+        ),
+      size: const Size(15.9997, 15.9984),
     ),
   );
 
@@ -449,9 +598,19 @@ class AppIconsData {
   final Vector phone;
   final Vector productMenuClosed;
   final Vector propagation;
+
+  @override
+  List<Object> get props => [
+        pageTree,
+        paperclip,
+        pasteWord,
+        phone,
+        productMenuClosed,
+        propagation,
+      ];
 }
 
-class AppRadiusData {
+class AppRadiusData extends Equatable {
   const AppRadiusData({
     required this.v5,
   });
@@ -461,4 +620,9 @@ class AppRadiusData {
       );
 
   final Object v5;
+
+  @override
+  List<Object> get props => [
+        v5,
+      ];
 }

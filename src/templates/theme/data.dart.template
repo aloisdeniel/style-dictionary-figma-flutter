@@ -36,7 +36,7 @@ function propToFinalProperty(prop) {
 
 part of 'theme.g.dart';
 
-class <%= themeDataClassName %> {
+class <%= themeDataClassName %> extends Equatable {
    const <%= themeDataClassName %>({
       <%= Object.entries(allTokens).map(function([categoryName, categoryTokens]) {
         return 'required this.' + camelCase(categoryName) + ',';
@@ -52,6 +52,12 @@ class <%= themeDataClassName %> {
     <% Object.entries(allTokens).map(function([categoryName, categoryTokens]) { 
     %><%= 'final ' + file.prefix +  categoryName  + 'Data ' + camelCase(categoryName) + ';' %>
     <% }); %>
+
+    @override
+    List<Object> get props => [
+      <% Object.entries(allTokens).map(function([categoryName, categoryTokens]) { 
+      %><%= camelCase(categoryName) + ',' %><% }); %>
+    ];
 }
 
 <% Object.entries(allTokens).forEach(entry => {
@@ -73,7 +79,7 @@ class Vector {
 <% } %>
 
 
-class <%= categoryThemeDataClassName %> {
+class <%= categoryThemeDataClassName %> extends Equatable {
    const <%= categoryThemeDataClassName %>({
       <%= categoryTokens.map(function(prop) {
         return 'required this.' + prop.name + ',';
@@ -100,5 +106,11 @@ class <%= categoryThemeDataClassName %> {
     <% categoryTokens.map(function(prop) { 
     %><%= propToFinalProperty(prop) %>
     <% }); %>
+
+    @override
+    List<Object> get props => [
+      <% categoryTokens.map(function(prop) { 
+      %><%= prop.name + ',' %><% }); %>
+    ];
 }
 <% }); %>

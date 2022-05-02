@@ -1,6 +1,7 @@
 <%
     const icons = allTokens.Icons; 
     const colors = allTokens.Color; 
+    const spacing = allTokens.Spacing; 
     const font = allTokens.Font; 
 %>
 //
@@ -22,10 +23,12 @@ class <%= file.prefix %>ThemeGallery extends StatelessWidget {
     Widget build(BuildContext context) {
         return ListView(
             children: [
-                <% if(font && font.length > 0) { %>const _FontSection(),<% } %>
                 <% if(colors && colors.length > 0) { %>const _ColorsSection(),<% } %>
+                <% if(font && font.length > 0) { %>const _FontSection(),<% } %>
+                <% if(spacing && spacing.length > 0) { %>const _SpacingSection(),<% } %>
                 <% if(icons && icons.length > 0) { %>const _IconsSection(),<% } %>
-            ]
+                const SizedBox(height: 20),
+            ],
         );
     }   
 }
@@ -40,14 +43,66 @@ class _ColorsSection extends StatelessWidget {
         final theme = <%= file.prefix %>Theme.of(context);
         return Column(
             mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-                Text('Icons'),
+                _Header('Colors'),
                 <% colors.map(function(prop) { %> _Token(
                     name: '<%= prop.name %>',
-                    child: Container(width: 24, height: 24, color: theme.color.<%= prop.name %>,),
+                    child: Container(
+                        width: 32, 
+                        height: 32, 
+                        decoration: BoxDecoration(
+                            color: theme.color.<%= prop.name %>,
+                            borderRadius: BorderRadius.circular(4),
+                            boxShadow: [
+                                BoxShadow(
+                                color: const Color(0x22000000),
+                                blurRadius: 10,
+                                ),
+                            ],
+                        ),
+                    ),
                 ),
-                <% }); %>
-            ]
+                <% },); %>
+            ],
+        );
+    }
+}<% } %>
+
+<% if(spacing && spacing.length > 0) { %>
+class _SpacingSection extends StatelessWidget {
+    const _SpacingSection({
+        Key? key,
+    }) : super(key: key);
+
+    @override
+    Widget build(BuildContext context) {
+        final theme = <%= file.prefix %>Theme.of(context);
+        return Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+                _Header('Spacing'),
+                <% spacing.map(function(prop) { %> _Token(
+                    name: '<%= prop.name %>',
+                    child: Container(
+                        decoration: BoxDecoration(
+                            color: const Color(0xFFEEEEEE),
+                            borderRadius: BorderRadius.circular(2),
+                        ),
+                        padding: theme.spacing.<%= prop.name %>,
+                        child:  Container(
+                        width: 32, 
+                        height: 32, 
+                        decoration: BoxDecoration(
+                            color: const Color(0xFF777777),
+                            borderRadius: BorderRadius.circular(2),
+                        ),
+                    ),
+                    ),
+                ),
+                <% },); %>
+            ],
         );
     }
 }<% } %>
@@ -62,14 +117,15 @@ class _FontSection extends StatelessWidget {
     Widget build(BuildContext context) {
         return Column(
             mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-                Text('Icons'),
+                _Header('Text styles'),
                 <% font.map(function(prop) { %> _Token(
                     name: '<%= prop.name %>',
                     child: <%= file.prefix %>Text.<%= prop.name %>('Hello world!'),
                 ),
-                <% }); %>
-            ]
+                <% },); %>
+            ],
         );
     }
 }<% } %>
@@ -84,16 +140,40 @@ class _IconsSection extends StatelessWidget {
     Widget build(BuildContext context) {
         return Column(
             mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-                Text('Icons'),
+                _Header('Icons'),
                 <% icons.map(function(prop) { %> _Token(
                     name: '<%= prop.name %>',
                     child: <%= file.prefix %>Icon.<%= prop.name %>(),
-                ),<% }); %>
-            ]
+                ),<% },); %>
+            ],
         );
     }
 }<% } %>
+
+class _Header extends StatelessWidget {
+  const _Header(
+    this.text, {
+    Key? key,
+  }) : super(key: key);
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(top: 30, left: 10, right: 10, bottom: 10),
+        child: Text(
+            text,
+            style: TextStyle(
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+            ),
+        ),
+    );
+  }
+}
 
 class _Token extends StatelessWidget {
     const _Token({
@@ -108,14 +188,33 @@ class _Token extends StatelessWidget {
     @override
     Widget build(BuildContext context) {
         return Container(
+            padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
             child: Row(
                 children: [
                     child,
+                    const SizedBox(width: 10),
                     Expanded(   
-                        child:Text(name),
+                        child: Wrap(
+                            children: [
+                                Container(
+                                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                decoration: BoxDecoration(
+                                    color: Color(0xFFEEEEEE),
+                                    borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Text(
+                                    name,
+                                    style: TextStyle(
+                                    fontSize: 11,
+                                    color: Color(0xFF666666),
+                                    ),
+                                ),
+                                ),
+                            ],
+                        ),
                     ),
-                ]
-            )
+                ],
+            ),
         );
     }
 }

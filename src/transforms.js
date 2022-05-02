@@ -64,7 +64,7 @@ module.exports = {
                 return `EdgeInsets.symmetric(vertical: ${top}, horizontal: ${left})`;
             }
 
-            return `EdgeInsets.only(left: ${left}, right: ${right}, top: ${right}, bottom: ${bottom})`;
+            return `EdgeInsets.only(left: ${left}, right: ${right}, top: ${top}, bottom: ${bottom})`;
         }
     },
     'font/flutter': {
@@ -85,57 +85,72 @@ module.exports = {
         matcher: function ({ type }) {
             return type === 'custom-icon'
         },
-        transformer: function ({ value: { data, windingRule, size: { width, height }, offset } }) {
+        transformer: function ({ value: { data, paths, size: { width, height }, offset } }) {
             var result = 'Vector('
             result += 'path: Path()';
 
-            if (windingRule.toLowerCase() === 'evenodd') {
-                result += '..fillType = PathFillType.evenOdd';
-            }
+            for (const key in paths) {
+                const path = paths[key];
+                const data = path.data
+                const windingRule = path.windingRule
 
-            const args = data.split(' ');
-            var currentPoint = ['0', '0'];
-            for (let i = 0; i < args.length;) {
-                const operator = args[i++];
-                if (operator === 'M') {
-                    const x = args[i++];
-                    const y = args[i++];
-                    result += '..moveTo(' + n(x, offset.x) + ',' + n(y, offset.y) + ')';
-                    currentPoint = [x, y];
+                if (paths.length > 1) {
+                    result += '..addPath(Path()'
                 }
-                else if (operator === 'L') {
-                    const x = args[i++];
-                    const y = args[i++];
-                    result += '..lineTo(' + n(x, offset.x) + ',' + n(y, offset.y) + ')';
-                    currentPoint = [x, y];
+
+
+                if (windingRule.toLowerCase() === 'evenodd') {
+                    result += '..fillType = PathFillType.evenOdd';
                 }
-                else if (operator === 'H') {
-                    const x = currentPoint[0] + args[i++];
-                    const y = currentPoint[1];
-                    result += '..lineTo(' + n(x, offset.x) + ',' + n(y, offset.y) + ')';
-                    currentPoint = [x, y];
+
+                const args = data.split(' ');
+                var currentPoint = ['0', '0'];
+                for (let i = 0; i < args.length;) {
+                    const operator = args[i++];
+                    if (operator === 'M') {
+                        const x = args[i++];
+                        const y = args[i++];
+                        result += '..moveTo(' + n(x, offset.x) + ',' + n(y, offset.y) + ')';
+                        currentPoint = [x, y];
+                    }
+                    else if (operator === 'L') {
+                        const x = args[i++];
+                        const y = args[i++];
+                        result += '..lineTo(' + n(x, offset.x) + ',' + n(y, offset.y) + ')';
+                        currentPoint = [x, y];
+                    }
+                    else if (operator === 'H') {
+                        const x = currentPoint[0] + args[i++];
+                        const y = currentPoint[1];
+                        result += '..lineTo(' + n(x, offset.x) + ',' + n(y, offset.y) + ')';
+                        currentPoint = [x, y];
+                    }
+                    else if (operator === 'V') {
+                        const x = currentPoint[0];
+                        const y = currentPoint[1] + args[i++];
+                        result += '..lineTo(' + n(x, offset.x) + ',' + n(y, offset.y) + ')';
+                        currentPoint = [x, y];
+                    }
+                    else if (operator === 'C') {
+                        const x1 = args[i++];
+                        const y1 = args[i++];
+                        const x2 = args[i++];
+                        const y2 = args[i++];
+                        const x3 = args[i++];
+                        const y3 = args[i++];
+                        result += '..cubicTo(' + n(x1, offset.x) + ',' + n(y1, offset.y) + ',' + n(x2, offset.x) + ',' + n(y2, offset.y) + ',' + n(x3, offset.x) + ',' + n(y3, offset.y) + ')';
+                        currentPoint = [x3, y3];
+                    }
+                    else if (operator === 'Z') {
+                        result += '..close()';
+                    }
+                    else {
+                        i++;
+                    }
                 }
-                else if (operator === 'V') {
-                    const x = currentPoint[0];
-                    const y = currentPoint[1] + args[i++];
-                    result += '..lineTo(' + n(x, offset.x) + ',' + n(y, offset.y) + ')';
-                    currentPoint = [x, y];
-                }
-                else if (operator === 'C') {
-                    const x1 = args[i++];
-                    const y1 = args[i++];
-                    const x2 = args[i++];
-                    const y2 = args[i++];
-                    const x3 = args[i++];
-                    const y3 = args[i++];
-                    result += '..cubicTo(' + n(x1, offset.x) + ',' + n(y1, offset.y) + ',' + n(x2, offset.x) + ',' + n(y2, offset.y) + ',' + n(x3, offset.x) + ',' + n(y3, offset.y) + ')';
-                    currentPoint = [x3, y3];
-                }
-                else if (operator === 'Z') {
-                    result += '..close()';
-                }
-                else {
-                    i++;
+
+                if (paths.length > 1) {
+                    result += ', Offset.zero,)'
                 }
             }
             result += ', ';
