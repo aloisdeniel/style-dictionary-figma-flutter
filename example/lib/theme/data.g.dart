@@ -3,7 +3,7 @@
 //
 
 // Do not edit directly
-// Generated on Mon, 02 May 2022 21:17:37 GMT
+// Generated on Tue, 03 May 2022 10:56:28 GMT
 
 part of 'theme.g.dart';
 
@@ -56,26 +56,45 @@ class AppTextStyleData {
         bodyExtraBoldCondensedItalic: TextStyle(
           fontFamily: 'Akzidenz-Grotesk Pro',
           fontSize: 12,
+          fontWeight: FontWeight.w800,
+          height: 1.2,
+          decoration: TextDecoration.none,
         ),
         bodyH3: TextStyle(
           fontFamily: 'Akzidenz-Grotesk Pro',
           fontSize: 20,
+          fontWeight: FontWeight.w700,
+          letterSpacing: 0.4,
+          height: 1.6,
+          decoration: TextDecoration.none,
         ),
         bodyH4StrikeThrough: TextStyle(
           fontFamily: 'Roboto',
           fontSize: 16,
+          fontWeight: FontWeight.w500,
+          height: 1.2,
+          decoration: TextDecoration.lineThrough,
         ),
         bodyItalic: TextStyle(
           fontFamily: 'Roboto',
           fontSize: 12,
+          fontWeight: FontWeight.w400,
+          height: 1.1667,
+          decoration: TextDecoration.none,
         ),
         bodyMediumExtendedItalic: TextStyle(
           fontFamily: 'Akzidenz-Grotesk Pro',
           fontSize: 20,
+          fontWeight: FontWeight.w500,
+          height: 1.2,
+          decoration: TextDecoration.none,
         ),
         bodySuper: TextStyle(
           fontFamily: 'Akzidenz-Grotesk Pro',
           fontSize: 22,
+          fontWeight: FontWeight.w900,
+          height: 1.2,
+          decoration: TextDecoration.none,
         ),
       );
 
@@ -281,8 +300,8 @@ class AppGradientData {
 
   factory AppGradientData.regular() => const AppGradientData(
         gradientMultiplegrad0: LinearGradient(
-          begin: Alignment(0.5, -6.123233995736766e-17),
-          end: Alignment(-0.5, 6.123233995736766e-17),
+          begin: Alignment(0.5, 0),
+          end: Alignment(-0.5, 0),
           stops: [0, 1],
           colors: [Color(0xFFFFB800), Color(0x00FFB800)],
         ),
@@ -293,14 +312,14 @@ class AppGradientData {
           colors: [Color(0xFFFFFFFF), Color(0x00FFFFFF)],
         ),
         gradientMultiplegrad2: LinearGradient(
-          begin: Alignment(0.5, -6.123233995736766e-17),
-          end: Alignment(-0.5, 6.123233995736766e-17),
+          begin: Alignment(0.5, 0),
+          end: Alignment(-0.5, 0),
           stops: [0, 1],
           colors: [Color(0xFFCF3030), Color(0x00FFFFFF)],
         ),
         gradientMultiplegrad3: LinearGradient(
-          begin: Alignment(0.5, -6.123233995736766e-17),
-          end: Alignment(-0.5, 6.123233995736766e-17),
+          begin: Alignment(0.5, 0),
+          end: Alignment(-0.5, 0),
           stops: [0, 0.23],
           colors: [Color(0xFF4A4FCC), Color(0x00FFFFFF)],
         ),

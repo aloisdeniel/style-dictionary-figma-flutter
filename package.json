@@ -1,6 +1,6 @@
 {
   "name": "style-dictionary-figma-flutter",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Custom style-dictionary transforms and formats to generate Flutter resources from a Figma Design Token plugin export.",
   "main": "index.js",
   "bin": {

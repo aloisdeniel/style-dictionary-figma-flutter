@@ -76,18 +76,18 @@ module.exports = {
             switch (gradientType) {
                 case 'radial':
                     result += `center: Alignment.center,`;
-                    result += `radius: ${Math.sqrt(x * x + y * y)},`;
+                    result += `radius: ${n(Math.sqrt(x * x + y * y))},`;
                     break;
                 case 'linear':
                 default:
-                    result += `begin: Alignment(${x},${y}),`;
-                    result += `end: Alignment(${-x},${-y}),`;
+                    result += `begin: Alignment(${n(x)},${n(y)}),`;
+                    result += `end: Alignment(${n(-x)},${n(-y)}),`;
                     break;
             }
 
             // Positions
             var stopValues = stops
-                .map((x) => x["position"]);
+                .map((x) => n(x["position"]));
             result += `stops: [${stopValues.join(", ")}],`;
 
             // Colors
@@ -107,9 +107,9 @@ module.exports = {
         },
         transformer: function ({ value: { topRight, topLeft, bottomLeft, bottomRight, } }) {
             if ([topRight, bottomLeft, bottomRight].every(v => v === topLeft)) {
-                return `BorderRadius.all(Radius.circular(${topLeft}))`;
+                return `BorderRadius.all(Radius.circular(${n(topLeft)}))`;
             }
-            return `BorderRadius.only(topLeft: Radius.circular(${topLeft}), topRight: Radius.circular(${topRight}),bottomRight: Radius.circular(${bottomRight}),bottomLeft: Radius.circular(${bottomLeft}),)`;
+            return `BorderRadius.only(topLeft: Radius.circular(${n(topLeft)}), topRight: Radius.circular(${n(topRight)}),bottomRight: Radius.circular(${n(bottomRight)}),bottomLeft: Radius.circular(${n(bottomLeft)}),)`;
         }
     },
     'spacing/flutter': {
@@ -119,14 +119,14 @@ module.exports = {
         },
         transformer: function ({ value: { left, top, right, bottom, } }) {
             if ([left, top, right].every(v => v === bottom)) {
-                return `EdgeInsets.all(${top})`;
+                return `EdgeInsets.all(${n(top)})`;
             }
 
             if (left === right && top === bottom) {
-                return `EdgeInsets.symmetric(vertical: ${top}, horizontal: ${left})`;
+                return `EdgeInsets.symmetric(vertical: ${n(top)}, horizontal: ${n(left)})`;
             }
 
-            return `EdgeInsets.only(left: ${left}, right: ${right}, top: ${top}, bottom: ${bottom})`;
+            return `EdgeInsets.only(left: ${n(left)}, right: ${n(right)}, top: ${n(top)}, bottom: ${n(bottom)})`;
         }
     },
     'font/flutter': {
@@ -137,7 +137,25 @@ module.exports = {
         transformer: function ({ value: { fontFamily, fontStyle, fontWeight, fontSize, lineHeight, textDecoration, letterSpacing } }) {
             var result = 'TextStyle(';
             if (fontFamily) result += 'fontFamily: \'' + fontFamily + '\',';
-            if (fontSize) result += 'fontSize: ' + fontSize + ',';
+            if (fontSize) result += 'fontSize: ' + n(fontSize) + ',';
+            if (fontWeight) result += 'fontWeight: FontWeight.w' + fontWeight + ',';
+            if (letterSpacing) result += 'letterSpacing: ' + n(letterSpacing) + ',';
+            if (lineHeight) result += 'height: ' + n(lineHeight / fontSize) + ',';
+            if (textDecoration) {
+                result += 'decoration: TextDecoration.';
+                switch (textDecoration) {
+                    case 'line-through':
+                        result += 'lineThrough'
+                        break;
+                    case 'underline':
+                        result += 'underline'
+                        break;
+                    default:
+                        result += 'none'
+                        break;
+                }
+                result += ',';
+            }
             result += ')';
             return result;
         }

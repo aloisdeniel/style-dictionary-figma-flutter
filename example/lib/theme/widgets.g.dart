@@ -3,7 +3,7 @@
 //
 
 // Do not edit directly
-// Generated on Mon, 02 May 2022 21:17:37 GMT
+// Generated on Tue, 03 May 2022 10:56:28 GMT
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter/rendering.dart';
@@ -25,6 +25,13 @@ class AppText extends StatelessWidget {
     Key? key,
     this.color,
     this.style,
+    this.textAlign,
+    this.locale,
+    this.softWrap,
+    this.overflow,
+    this.textScaleFactor,
+    this.maxLines,
+    this.textDirection,
   })  : variant = AppTextVariant.bodyExtraBoldCondensedItalic,
         super(key: key);
 
@@ -33,6 +40,13 @@ class AppText extends StatelessWidget {
     Key? key,
     this.color,
     this.style,
+    this.textAlign,
+    this.locale,
+    this.softWrap,
+    this.overflow,
+    this.textScaleFactor,
+    this.maxLines,
+    this.textDirection,
   })  : variant = AppTextVariant.bodyH3,
         super(key: key);
 
@@ -41,6 +55,13 @@ class AppText extends StatelessWidget {
     Key? key,
     this.color,
     this.style,
+    this.textAlign,
+    this.locale,
+    this.softWrap,
+    this.overflow,
+    this.textScaleFactor,
+    this.maxLines,
+    this.textDirection,
   })  : variant = AppTextVariant.bodyH4StrikeThrough,
         super(key: key);
 
@@ -49,6 +70,13 @@ class AppText extends StatelessWidget {
     Key? key,
     this.color,
     this.style,
+    this.textAlign,
+    this.locale,
+    this.softWrap,
+    this.overflow,
+    this.textScaleFactor,
+    this.maxLines,
+    this.textDirection,
   })  : variant = AppTextVariant.bodyItalic,
         super(key: key);
 
@@ -57,6 +85,13 @@ class AppText extends StatelessWidget {
     Key? key,
     this.color,
     this.style,
+    this.textAlign,
+    this.locale,
+    this.softWrap,
+    this.overflow,
+    this.textScaleFactor,
+    this.maxLines,
+    this.textDirection,
   })  : variant = AppTextVariant.bodyMediumExtendedItalic,
         super(key: key);
 
@@ -65,6 +100,13 @@ class AppText extends StatelessWidget {
     Key? key,
     this.color,
     this.style,
+    this.textAlign,
+    this.locale,
+    this.softWrap,
+    this.overflow,
+    this.textScaleFactor,
+    this.maxLines,
+    this.textDirection,
   })  : variant = AppTextVariant.bodySuper,
         super(key: key);
 
@@ -72,6 +114,27 @@ class AppText extends StatelessWidget {
   final String text;
   final Color? color;
   final TextStyle? style;
+
+  /// {@macro flutter.widgets.text.textAlign}
+  final TextAlign? textAlign;
+
+  /// {@macro flutter.widgets.text.textDirection}
+  final TextDirection? textDirection;
+
+  /// {@macro flutter.widgets.text.locale}
+  final Locale? locale;
+
+  /// {@macro flutter.widgets.text.softWrap}
+  final bool? softWrap;
+
+  /// {@macro flutter.widgets.text.overflow}
+  final TextOverflow? overflow;
+
+  /// {@macro flutter.widgets.text.textScaleFactor}
+  final double? textScaleFactor;
+
+  /// {@macro flutter.widgets.text.maxLines}
+  final int? maxLines;
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +160,17 @@ class AppText extends StatelessWidget {
           return theme.textStyle.bodySuper;
       }
     }();
-    return Text(text, style: style.merge(this.style).copyWith(color: color));
+    return Text(
+      text,
+      style: style.merge(this.style).copyWith(color: color),
+      textAlign: textAlign,
+      textDirection: textDirection,
+      locale: locale,
+      softWrap: softWrap,
+      overflow: overflow,
+      textScaleFactor: textScaleFactor,
+      maxLines: maxLines,
+    );
   }
 }
 
